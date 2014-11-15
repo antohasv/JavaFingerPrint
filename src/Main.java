@@ -13,9 +13,15 @@ public class Main {
         System.out.println("Binarization: " + result + " ms.");
 
         start = System.currentTimeMillis();
-        new Skeletization(binaryMatrix);
+
+        Skeletization sk = new Skeletization(imageManager.getImage(), binaryMatrix);
+        int skMatrix[][] = sk.execute();
+
+
         result = System.currentTimeMillis() - start;
         System.out.println("Skeletization: " + result + " ms.");
+
+        new ImageManager(sk.getmBufferedImage()).showImage();
 
 //        try {
 //            Skeletization sk = new Skeletization(getBinaryMatrix(bufferedImage));

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
 public class Skeletization {
 
@@ -6,15 +6,16 @@ public class Skeletization {
     private int mHeight;
     private int mWidht;
 
-    public Skeletization(int[][] binMatrix) {
+    private BufferedImage mBufferedImage;
+
+    public Skeletization(BufferedImage image, int[][] binMatrix) {
+        this.mBufferedImage = image;
         this.mBinMatrix = binMatrix;
         this.mWidht = binMatrix.length;
         this.mHeight = binMatrix[0].length;
-
-        execute();
     }
 
-    private int[][] execute() {
+    public int[][] execute() {
         int count = 1;
         int cc = 1;
         while (count != 0) {
@@ -23,6 +24,10 @@ public class Skeletization {
             cc++;
         }
         return mBinMatrix;
+    }
+
+    public BufferedImage getmBufferedImage() {
+        return mBufferedImage;
     }
 
     // Удаляем пиксель по основному набору
@@ -35,6 +40,7 @@ public class Skeletization {
                 if (mBinMatrix[j][i] == 0 && deletable(j, i))
                 {
                     mBinMatrix[j][i] = 1;
+                    mBufferedImage.setRGB(j, i, 1);
                     count++;
                 }
             }
@@ -44,35 +50,36 @@ public class Skeletization {
     // Получаем участок размером 3x3 и передаём на проверку по основному шаблону
     private boolean deletable(int x, int y)
     {
-        ArrayList a = new ArrayList();
+        int k = 0;
+        int arr[] = new int[9];
         for (int i = y - 1; i < y + 2; i++)
         {
-            for (int j = x - 1; j < x + 2; j++)
+            for (int j = x - 1; j < x + 2; j++, k++)
             {
-                a.add(mBinMatrix[j][i]);
+                arr[k] = mBinMatrix[j][i];
             }
         }
-        return check(a);
+        return check(arr);
     }
 
     // Принадлежность к основным шаблонам
-    private boolean check(ArrayList<Integer> a)
+    private boolean check(int[] a)
     {
-        if (a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 0 && a.get(4) == 0 && a.get(5) == 1 && a.get(7) == 0)
+        if (a[1] == 1 && a[2] == 1 && a[3] == 0 && a[4] == 0 && a[5] == 1 && a[7] == 0)
             return true;
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 0 && a.get(7) == 0)
+        if (a[0] == 1 && a[1] == 1 && a[3] == 1 && a[4] == 0 && a[5] == 0 && a[7] == 0)
             return true;
-        if (a.get(1) == 0 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 0 && a.get(6) == 1 && a.get(7) == 1)
+        if (a[1] == 0 && a[3] == 1 && a[4] == 0 && a[5] == 0 && a[6] == 1 && a[7] == 1)
             return true;
-        if (a.get(1) == 0 && a.get(3) == 0 && a.get(4) == 0 && a.get(5) == 1 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[1] == 0 && a[3] == 0 && a[4] == 0 && a[5] == 1 && a[7] == 1 && a[8] == 1)
             return true;
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 0 && a.get(4) == 0 && a.get(5) == 0 && a.get(7) == 0)
+        if (a[0] == 1 && a[1] == 1 && a[2] == 1 && a[3] == 0 && a[4] == 0 && a[5] == 0 && a[7] == 0)
             return true;
-        if (a.get(0) == 1 && a.get(1) == 0 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 0 && a.get(6) == 1 && a.get(7) == 0)
+        if (a[0] == 1 && a[1] == 0 && a[3] == 1 && a[4] == 0 && a[5] == 0 && a[6] == 1 && a[7] == 0)
             return true;
-        if (a.get(1) == 0 && a.get(3) == 0 && a.get(4) == 0 && a.get(5) == 0 && a.get(6) == 1 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[1] == 0 && a[3] == 0 && a[4] == 0 && a[5] == 0 && a[6] == 1 && a[7] == 1 && a[8] == 1)
             return true;
-        if (a.get(1) == 0 && a.get(2) == 1 && a.get(3) == 0 && a.get(4) == 0 && a.get(5) == 1 && a.get(7) == 0 && a.get(8) == 1)
+        if (a[1] == 0 && a[2] == 1 && a[3] == 0 && a[4] == 0 && a[5] == 1 && a[7] == 0 && a[8] == 1)
             return true;
 
         return false;
@@ -87,63 +94,65 @@ public class Skeletization {
                 if (mBinMatrix[j][i] == 0 && deletableNoise(j, i))
                 {
                     mBinMatrix[j][i] = 1;
+                    mBufferedImage.setRGB(j, i, 1);
                 }
             }
     }
 
     private boolean deletableNoise(int x, int y) {
-        ArrayList a = new ArrayList();
+        int k = 0;
+        int arr[] = new int[9];
         for (int i = y - 1; i < y + 2; i++)
         {
-            for (int j = x - 1; j < x + 2; j++)
+            for (int j = x - 1; j < x + 2; j++, k++)
             {
-                a.add(mBinMatrix[j][i]);
+                arr[k] = mBinMatrix[j][i];
             }
         }
-        return noise(a);
+        return noise(arr);
     }
 
     // Принадлежность к шумам
-    private boolean noise(ArrayList<Integer> a)
+    private boolean noise(int[] a)
     {
         // 1
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 1 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[0] == 1 && a[1] == 1 && a[2] == 1 && a[3] == 1 && a[4] == 0 && a[5] == 1 && a[6] == 1 && a[7] == 1 && a[8] == 1)
             return true;
         // 2
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 1 && a.get(7) == 0 && a.get(8) == 0)
+        if (a[0] == 1 && a[1] == 1 && a[2] == 1 && a[3] == 1 && a[4] == 0 && a[5] == 1 && a[6] == 1 && a[7] == 0 && a[8] == 0)
             return true;
         // 3
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 0 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 0 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[0] == 1 && a[1] == 1 && a[2] == 1 && a[3] == 0 && a[4] == 0 && a[5] == 1 && a[6] == 0 && a[7] == 1 && a[8] == 1)
             return true;
         // 4
-        if (a.get(0) == 0 && a.get(1) == 0 && a.get(2) == 1 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 1 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[0] == 0 && a[1] == 0 && a[2] == 1 && a[3] == 1 && a[4] == 0 && a[5] == 1 && a[6] == 1 && a[7] == 1 && a[8] == 1)
             return true;
         // 5
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(2) == 0 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 0 && a.get(6) == 1 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[0] == 1 && a[1] == 1 && a[2] == 0 && a[3] == 1 && a[4] == 0 && a[5] == 0 && a[6] == 1 && a[7] == 1 && a[8] == 1)
             return true;
         // 6
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 0 && a.get(7) == 0 && a.get(8) == 1)
+        if (a[0] == 1 && a[1] == 1 && a[2] == 1 && a[3] == 1 && a[4] == 0 && a[5] == 1 && a[6] == 0 && a[7] == 0 && a[8] == 1)
             return true;
         // 7
-        if (a.get(0) == 0 && a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 0 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 1 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[0] == 0 && a[1] == 1 && a[2] == 1 && a[3] == 0 && a[4] == 0 && a[5] == 1 && a[6] == 1 && a[7] == 1 && a[8] == 1)
             return true;
         // 8
-        if (a.get(0) == 1 && a.get(1) == 0 && a.get(2) == 0 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 1 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[0] == 1 && a[1] == 0 && a[2] == 0 && a[3] == 1 && a[4] == 0 && a[5] == 1 && a[6] == 1 && a[7] == 1 && a[8] == 1)
             return true;
         // 9
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 0 && a.get(6) == 1 && a.get(7) == 1 && a.get(8) == 0)
+        if (a[0] == 1 && a[1] == 1 && a[2] == 1 && a[3] == 1 && a[4] == 0 && a[5] == 0 && a[6] == 1 && a[7] == 1 && a[8] == 0)
             return true;
         // 10
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 0 && a.get(7) == 0 && a.get(8) == 0)
+        if (a[0] == 1 && a[1] == 1 && a[2] == 1 && a[3] == 1 && a[4] == 0 && a[5] == 1 && a[6] == 0 && a[7] == 0 && a[8] == 0)
             return true;
         // 11
-        if (a.get(0) == 0 && a.get(1) == 1 && a.get(2) == 1 && a.get(3) == 0 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 0 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[0] == 0 && a[1] == 1 && a[2] == 1 && a[3] == 0 && a[4] == 0 && a[5] == 1 && a[6] == 0 && a[7] == 1 && a[8] == 1)
             return true;
         // 12
-        if (a.get(0) == 0 && a.get(1) == 0 && a.get(2) == 0 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 1 && a.get(6) == 1 && a.get(7) == 1 && a.get(8) == 1)
+        if (a[0] == 0 && a[1] == 0 && a[2] == 0 && a[3] == 1 && a[4] == 0 && a[5] == 1 && a[6] == 1 && a[7] == 1 && a[8] == 1)
             return true;
         // 13
-        if (a.get(0) == 1 && a.get(1) == 1 && a.get(2) == 0 && a.get(3) == 1 && a.get(4) == 0 && a.get(5) == 0 && a.get(6) == 1 && a.get(7) == 1 && a.get(8) == 0)
+        if (a[0] == 1 && a[1] == 1 && a[2] == 0 && a[3] == 1 && a[4] == 0 && a[5] == 0 && a[6] == 1 && a[7] == 1 && a[8] == 0)
             return true;
 
         return false;
