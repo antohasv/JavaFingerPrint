@@ -1,70 +1,40 @@
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Skeletization {
 
-    private BufferedImage binImg;
+    private int[][] mBinMatrix;
+    private int mHeight;
+    private int mWidht;
 
-    private int[][] matrix;
+    public Skeletization(int[][] binMatrix) {
+        this.mBinMatrix = binMatrix;
+        this.mWidht = binMatrix.length;
+        this.mHeight = binMatrix[0].length;
 
-    public Skeletization(BufferedImage binImg) {
-        this.binImg = binImg;
-        int[][] arr = getArrayByImg();
-        long start = System.currentTimeMillis();
-        matrix = performSkeletic(arr);
-
-        long end = System.currentTimeMillis();
-
-        System.out.println(end - start);
-
-//        for (int i = 0; i < matrix.length; i++) {
-//            for (int j = 0; j < matrix[0].length; j++) {
-//                if (matrix[i][j] == 1) {
-//                    binImg.setRGB(i, j, Color.WHITE.getRGB());
-//                } else {
-//                    binImg.setRGB(i, j, Color.BLACK.getRGB());
-//                }
-//            }
-//        }
+        execute();
     }
 
-    public BufferedImage getBinImg() {
-        return binImg;
-    }
-
-    private int[][] getArrayByImg() {
-        int[][] arr = new int[binImg.getWidth()][binImg.getHeight()];
-        for (int i = 0; i < binImg.getWidth(); i++) {
-            for (int j = 0; j < binImg.getHeight(); j++) {
-                arr[i][j] = binImg.getRGB(i, j);
-            }
-        }
-        return arr;
-    }
-
-    private int[][] performSkeletic(int[][] l) {
+    private int[][] execute() {
         int count = 1;
         int cc = 1;
         while (count != 0) {
-            count = del(l);
-            l = del_noise(l);
+            count = deletePixels();
+            delNoise();
             cc++;
         }
-        return l;
+        return mBinMatrix;
     }
 
     // Удаляем пиксель по основному набору
-    private int del(int[][] wArr)
+    private int deletePixels()
     {
         int count = 0;
-        for (int i = 1; i < binImg.getHeight() - 1; i++)
-            for (int j = 1; j < binImg.getWidth() - 1; j++)
+        for (int i = 1; i < mHeight - 1; i++)
+            for (int j = 1; j < mWidht - 1; j++)
             {
-                if (wArr[j][i] == 0)
-                if (deletable(wArr, j, i))
+                if (mBinMatrix[j][i] == 0 && deletable(j, i))
                 {
-                    wArr[j][i] = 1;
+                    mBinMatrix[j][i] = 1;
                     count++;
                 }
             }
@@ -72,14 +42,14 @@ public class Skeletization {
     }
 
     // Получаем участок размером 3x3 и передаём на проверку по основному шаблону
-    private boolean deletable(int[][] arr, int x, int y)
+    private boolean deletable(int x, int y)
     {
         ArrayList a = new ArrayList();
         for (int i = y - 1; i < y + 2; i++)
         {
             for (int j = x - 1; j < x + 2; j++)
             {
-                a.add(arr[j][i]);
+                a.add(mBinMatrix[j][i]);
             }
         }
         return check(a);
@@ -108,31 +78,26 @@ public class Skeletization {
         return false;
     }
 
-
-
     // Удаляем пиксель по шумовому набору
-    private int[][] del_noise(int[][] wArr)
+    private void delNoise()
     {
-        for (int i = 1; i < binImg.getHeight() - 1; i++)
-            for (int j = 1; j < binImg.getWidth() - 1; j++)
+        for (int i = 1; i < mHeight - 1; i++)
+            for (int j = 1; j < mWidht - 1; j++)
             {
-                if (wArr[j][i] == 0)
-                if (deletable_noise(wArr, j, i))
+                if (mBinMatrix[j][i] == 0 && deletableNoise(j, i))
                 {
-                    wArr[j][i] = 1;
+                    mBinMatrix[j][i] = 1;
                 }
             }
-
-        return wArr;
     }
 
-    private boolean deletable_noise(int[][] arr, int x, int y) {
+    private boolean deletableNoise(int x, int y) {
         ArrayList a = new ArrayList();
         for (int i = y - 1; i < y + 2; i++)
         {
             for (int j = x - 1; j < x + 2; j++)
             {
-                a.add(arr[j][i]);
+                a.add(mBinMatrix[j][i]);
             }
         }
         return noise(a);

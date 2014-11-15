@@ -39,22 +39,27 @@ public class ImageManager extends JPanel {
      * and add the label to a container in your gui.
      */
     public void showImage() {
+        changeColor(1, Color.RED.getRGB());
         ImageIcon icon = new ImageIcon(mImage);
         JLabel label = new JLabel(icon, JLabel.CENTER);
         JOptionPane.showMessageDialog(null, label, "icon", -1);
+        changeColor(Color.RED.getRGB(), 1);
     }
 
-    public static BufferedImage changeColorPic(BufferedImage image) {
-        int width = image.getWidth();
-        int height = image.getHeight();
+    public void changeColor(int compareColor, int newColor) {
+        int width = mImage.getWidth();
+        int height = mImage.getHeight();
 
         for(int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (image.getRGB(j, i) == 1) {
-                    image.setRGB(j, i, Color.RED.getRGB());
+                if (mImage.getRGB(j, i) == compareColor) {
+                    mImage.setRGB(j, i, newColor);
                 }
             }
         }
-        return image;
+    }
+
+    public BufferedImage getImage() {
+        return mImage;
     }
 }
