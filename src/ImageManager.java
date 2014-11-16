@@ -21,7 +21,7 @@ public class ImageManager extends JPanel {
 
     private ImageManager(int[][] binMatrix) {
         mMatrix = binMatrix;
-        mImage = new BufferedImage(binMatrix.length, binMatrix[0].length, BufferedImage.TYPE_INT_BGR);
+        mImage = new BufferedImage(binMatrix.length, binMatrix[0].length, BufferedImage.TYPE_4BYTE_ABGR);
         for (int i = 0; i < binMatrix[0].length; i++) {
             for (int j = 0; j < binMatrix.length; j++) {
                 mImage.setRGB(j, i, binMatrix[j][i]);
@@ -47,6 +47,17 @@ public class ImageManager extends JPanel {
         return new ImageManager(binMatrix);
     }
 
+    public void save(String path) {
+        changeColor(1, Color.WHITE.getRGB());
+        File outputfile = new File(path);
+        try {
+            ImageIO.write(mImage, "png", outputfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        changeColor(Color.WHITE.getRGB(), 1);
+    }
+
     /**
      * Drawing an image can allow for more
      * flexibility in processing/editing.
@@ -64,11 +75,11 @@ public class ImageManager extends JPanel {
      * and add the label to a container in your gui.
      */
     public void showImage() {
-        changeColor(1, Color.RED.getRGB());
+        changeColor(1, Color.WHITE.getRGB());
         ImageIcon icon = new ImageIcon(mImage);
         JLabel label = new JLabel(icon, JLabel.CENTER);
         JOptionPane.showMessageDialog(null, label, "FingerPrint", -1);
-        changeColor(Color.RED.getRGB(), 1);
+        changeColor(Color.WHITE.getRGB(), 1);
     }
 
     public void changeColor(int colorForChange, int newColor) {
@@ -79,8 +90,8 @@ public class ImageManager extends JPanel {
             for (int j = 0; j < width; j++) {
                 if (mImage.getRGB(j, i) == colorForChange) {
                     mImage.setRGB(j, i, newColor);
-                } else {
-                    mImage.setRGB(j, i, Color.GREEN.getRGB());
+                } else if (mImage.getRGB(j, i) == 0) {
+                    mImage.setRGB(j, i, Color.BLACK.getRGB());
                 }
             }
         }

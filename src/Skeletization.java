@@ -1,4 +1,3 @@
-import java.awt.image.BufferedImage;
 
 public class Skeletization {
 
@@ -6,10 +5,7 @@ public class Skeletization {
     private int mHeight;
     private int mWidht;
 
-    private BufferedImage mBufferedImage;
-
-    public Skeletization(BufferedImage image, int[][] binMatrix) {
-        this.mBufferedImage = image;
+    public Skeletization(int[][] binMatrix) {
         this.mBinMatrix = binMatrix;
         this.mWidht = binMatrix.length;
         this.mHeight = binMatrix[0].length;
@@ -21,13 +17,10 @@ public class Skeletization {
         while (count != 0) {
             count = deletePixels();
             delNoise();
+            System.out.println(count);
             cc++;
         }
         return mBinMatrix;
-    }
-
-    public BufferedImage getmBufferedImage() {
-        return mBufferedImage;
     }
 
     // Удаляем пиксель по основному набору
@@ -40,7 +33,7 @@ public class Skeletization {
                 if (mBinMatrix[j][i] == 0 && deletable(j, i))
                 {
                     mBinMatrix[j][i] = 1;
-                    mBufferedImage.setRGB(j, i, 1);
+                    //mBufferedImage.setRGB(j, i, 1);
                     count++;
                 }
             }
@@ -94,7 +87,6 @@ public class Skeletization {
                 if (mBinMatrix[j][i] == 0 && deletableNoise(j, i))
                 {
                     mBinMatrix[j][i] = 1;
-                    mBufferedImage.setRGB(j, i, 1);
                 }
             }
     }

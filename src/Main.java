@@ -14,21 +14,35 @@ public class Main {
 
         start = System.currentTimeMillis();
 
-        Skeletization sk = new Skeletization(imageManager.getImage(), binaryMatrix);
+        Skeletization sk = new Skeletization(binaryMatrix);
         int skMatrix[][] = sk.execute();
-
 
         result = System.currentTimeMillis() - start;
         System.out.println("Skeletization: " + result + " ms.");
 
-        new ImageManager(sk.getmBufferedImage()).showImage();
+        start = System.currentTimeMillis();
+
+        FindMinutia1 findMinutia1 = new FindMinutia1(skMatrix);
+        findMinutia1.findCheckPoint();
+
+        new DeleteNoise(findMinutia1.getMinutiaEnd(), findMinutia1.getMinutiaBranch()).execute();
+
+
+//        FindMinutia findMinutia = new FindMinutia(imageManager.getImage(), skMatrix);
+//        findMinutia.perform();
+
+//        ImageManager imageManager1 = new ImageManager(findMinutia.getmImage());
+
+        //imageManager1.showImage();
+//        imageManager1.save("img/q1.png");
+
+        System.out.println("FindMinutia: " + result + " ms.");
 
 //        try {
 //            Skeletization sk = new Skeletization(getBinaryMatrix(bufferedImage));
 //            //showImage(sk.getBinImg());
 //
-//            FindMinutia findMinutia = new FindMinutia(sk.getBinImg());
-//            findMinutia.perform();
+
 //
 //            System.out.print("Branch:" + findMinutia.getMinutiaBranch().size() + " End:" + findMinutia.getMinutiaEnd().size());
 //        } catch (IOException e) {

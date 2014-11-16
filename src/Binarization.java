@@ -17,7 +17,6 @@ public class Binarization {
                     pixel = 0;
                 }
                 result[j][i] = pixel;
-                image.setRGB(j, i, pixel);
             }
         }
         return result;
