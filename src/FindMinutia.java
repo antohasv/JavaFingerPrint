@@ -1,3 +1,5 @@
+import algorithm.domain.Minutia;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class FindMinutia {
     }
 
     public void perform() {
-        findCheckPoint();
+        //findCheckPoint();
         System.out.println("Branch:" + minutiaBranch.size() + " End:" + minutiaEnd.size());
         //delNoisePoints();
         System.out.println("Branch:" + minutiaBranch.size() + " End:" + minutiaEnd.size());
@@ -44,184 +46,184 @@ public class FindMinutia {
         return minutiaBranch;
     }
 
-
-    private void findCheckPoint()
-    {
-
-        for (int j = 1; j < width - 1; j++)
-        {
-            for (int i = 1; i < height - 1; i++)
-            {
-            /* Окончания */
-                // Проверка на первый шаблон
-                if (mSKMatrix[j - 1][i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 1 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaEnd.add(new Minutia(i,  j, 270, true));
-                    mImage.setRGB(i, j, Color.RED.getRGB());
-
-                }
-
-
-                // Второй шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 1 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaEnd.add(new Minutia(i,  j, 225, true));
-                    mImage.setRGB(i, j, Color.RED.getRGB());
-
-                }
-
-
-                // Третий шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 1 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaEnd.add(new Minutia(i,  j, 180, true));
-                    mImage.setRGB(i, j, Color.RED.getRGB());
-
-                }
-
-
-                // Четвёртый шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 1 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaEnd.add(new Minutia(i,  j, 135, true));
-                    mImage.setRGB(i, j, Color.RED.getRGB());
-
-                }
-
-
-                // Пятый шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 1 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 01 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaEnd.add(new Minutia(i,  j, 90, true));
-                    mImage.setRGB(i, j, Color.RED.getRGB());
-
-                }
-
-                // Шестой шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 1
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaEnd.add(new Minutia(i,  j, 45, true));
-                    mImage.setRGB(i, j, Color.RED.getRGB());
-
-                }
-
-
-                // Седьмой шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 1
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaEnd.add(new Minutia(i,  j, 0, true));
-                    mImage.setRGB(i, j, Color.RED.getRGB());
-
-                }
-
-                // Восьмой шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 1)
-                {
-                    minutiaEnd.add(new Minutia(i,  j, 315, true));
-                    mImage.setRGB(i, j, Color.RED.getRGB());
-
-                }
-
-            /* Раздвоения */
-                // Проверка на первый шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 1 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 1
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaBranch.add(new Minutia(i,  j, 90, false));
-                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
-                }
-
-                // Второй шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 1 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 1
-                        && mSKMatrix[j + 1][ i - 1] == 1 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaBranch.add(new Minutia(i,  j, 45, false));
-                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
-
-                }
-
-                // Третий шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 1
-                        && mSKMatrix[j][ i - 1] == 1 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 1)
-                {
-                    minutiaBranch.add(new Minutia(i,  j, 0, false));
-                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
-
-
-                }
-
-
-                // Четвёртый шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 1 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 1
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 1 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaBranch.add(new Minutia(i,  j, 315, false));
-                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
-                }
-
-                // Пятый шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 1 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 1 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 1)
-                {
-                    minutiaBranch.add(new Minutia(i,  j, 270, false));
-                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
-
-                }
-
-                // Шестой шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 1
-                        && mSKMatrix[j][ i - 1] == 1 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 1 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaBranch.add(new Minutia(i,  j, 225, false));
-                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
-
-                }
-
-
-                // Седьмой шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 1 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 1
-                        && mSKMatrix[j + 1][ i - 1] == 1 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
-                {
-                    minutiaBranch.add(new Minutia(i,  j, 180, false));
-                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
-
-                }
-
-                // Восьмой шаблон
-                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 1 && mSKMatrix[j - 1][ i + 1] == 0
-                        && mSKMatrix[j][ i - 1] == 1 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
-                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 1)
-                {
-                    minutiaBranch.add(new Minutia(i,  j, 135, false));
-                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
-
-                }
-            }
-        }
-    }
+//
+//    private void findCheckPoint()
+//    {
+//
+//        for (int j = 1; j < width - 1; j++)
+//        {
+//            for (int i = 1; i < height - 1; i++)
+//            {
+//            /* Окончания */
+//                // Проверка на первый шаблон
+//                if (mSKMatrix[j - 1][i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 1 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaEnd.add(new Minutia(i,  j, 270, true));
+//                    mImage.setRGB(i, j, Color.RED.getRGB());
+//
+//                }
+//
+//
+//                // Второй шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 1 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaEnd.add(new Minutia(i,  j, 225, true));
+//                    mImage.setRGB(i, j, Color.RED.getRGB());
+//
+//                }
+//
+//
+//                // Третий шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 1 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaEnd.add(new Minutia(i,  j, 180, true));
+//                    mImage.setRGB(i, j, Color.RED.getRGB());
+//
+//                }
+//
+//
+//                // Четвёртый шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 1 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaEnd.add(new Minutia(i,  j, 135, true));
+//                    mImage.setRGB(i, j, Color.RED.getRGB());
+//
+//                }
+//
+//
+//                // Пятый шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 1 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 01 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaEnd.add(new Minutia(i,  j, 90, true));
+//                    mImage.setRGB(i, j, Color.RED.getRGB());
+//
+//                }
+//
+//                // Шестой шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 1
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaEnd.add(new Minutia(i,  j, 45, true));
+//                    mImage.setRGB(i, j, Color.RED.getRGB());
+//
+//                }
+//
+//
+//                // Седьмой шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 1
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaEnd.add(new Minutia(i,  j, 0, true));
+//                    mImage.setRGB(i, j, Color.RED.getRGB());
+//
+//                }
+//
+//                // Восьмой шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 1)
+//                {
+//                    minutiaEnd.add(new Minutia(i,  j, 315, true));
+//                    mImage.setRGB(i, j, Color.RED.getRGB());
+//
+//                }
+//
+//            /* Раздвоения */
+//                // Проверка на первый шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 1 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 1
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaBranch.add(new Minutia(i,  j, 90, false));
+//                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
+//                }
+//
+//                // Второй шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 1 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 1
+//                        && mSKMatrix[j + 1][ i - 1] == 1 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaBranch.add(new Minutia(i,  j, 45, false));
+//                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
+//
+//                }
+//
+//                // Третий шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 1
+//                        && mSKMatrix[j][ i - 1] == 1 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 1)
+//                {
+//                    minutiaBranch.add(new Minutia(i,  j, 0, false));
+//                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
+//
+//
+//                }
+//
+//
+//                // Четвёртый шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 1 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 1
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 1 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaBranch.add(new Minutia(i,  j, 315, false));
+//                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
+//                }
+//
+//                // Пятый шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 1 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 1 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 1)
+//                {
+//                    minutiaBranch.add(new Minutia(i,  j, 270, false));
+//                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
+//
+//                }
+//
+//                // Шестой шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 1
+//                        && mSKMatrix[j][ i - 1] == 1 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 1 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaBranch.add(new Minutia(i,  j, 225, false));
+//                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
+//
+//                }
+//
+//
+//                // Седьмой шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 1 && mSKMatrix[j - 1][ i] == 0 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 0 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 1
+//                        && mSKMatrix[j + 1][ i - 1] == 1 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 0)
+//                {
+//                    minutiaBranch.add(new Minutia(i,  j, 180, false));
+//                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
+//
+//                }
+//
+//                // Восьмой шаблон
+//                if (mSKMatrix[j - 1][ i - 1] == 0 && mSKMatrix[j - 1][ i] == 1 && mSKMatrix[j - 1][ i + 1] == 0
+//                        && mSKMatrix[j][ i - 1] == 1 && mSKMatrix[j][ i] == 1 && mSKMatrix[j][ i + 1] == 0
+//                        && mSKMatrix[j + 1][ i - 1] == 0 && mSKMatrix[j + 1][ i] == 0 && mSKMatrix[j + 1][ i + 1] == 1)
+//                {
+//                    minutiaBranch.add(new Minutia(i,  j, 135, false));
+//                    mImage.setRGB(i, j, Color.ORANGE.getRGB());
+//
+//                }
+//            }
+//        }
+//    }
 
     // Удаляем ложные минюции
     private void delNoisePoints()

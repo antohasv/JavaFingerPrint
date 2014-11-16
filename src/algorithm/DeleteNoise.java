@@ -1,14 +1,20 @@
+package algorithm;
+
+
+import algorithm.domain.LineList;
+import algorithm.domain.Minutia;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteNoise {
+public class DeleteNoise extends Algorithm<LineList> {
 
     private List<Minutia> minutiaEnd;
     private List<Minutia> minutiaBranch;
 
-    public DeleteNoise(List<Minutia> minutiaEnd, List<Minutia> minutiaBranch) {
-        this.minutiaEnd = minutiaEnd;
-        this.minutiaBranch = minutiaBranch;
+    public DeleteNoise(LineList lineList) {
+        this.minutiaEnd = lineList.getMinutiaEnd();
+        this.minutiaBranch = lineList.getMinutiaBranch();
     }
 
     private List<Minutia> removeDuplicates(List<Minutia> points, List<Minutia> tmp) {
@@ -36,7 +42,8 @@ public class DeleteNoise {
         return arr;
     }
 
-    public void execute() {
+    @Override
+    public LineList execute() {
         List<Minutia> tmpEnd = new ArrayList<Minutia>();
         List<Minutia> tmpBranch = new ArrayList<Minutia>();
 
@@ -52,6 +59,6 @@ public class DeleteNoise {
             }
         }
 
-        System.out.println("Branch:" + removeDuplicates(minutiaBranch, tmpBranch).size() + " End:" + removeDuplicates(minutiaEnd, tmpEnd).size());
+        return new LineList(removeDuplicates(minutiaEnd, tmpEnd), removeDuplicates(minutiaBranch, tmpBranch));
     }
 }

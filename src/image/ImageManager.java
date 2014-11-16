@@ -1,3 +1,5 @@
+package image;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +10,7 @@ import java.io.IOException;
 public class ImageManager extends JPanel {
     private BufferedImage mImage;
     private Dimension size = new Dimension();
-    private int mMatrix[][];
+    private boolean mMatrix[][];
 
     public ImageManager(String linkToImg) {
         initImage(linkToImg);
@@ -19,12 +21,12 @@ public class ImageManager extends JPanel {
         initImageSize();
     }
 
-    private ImageManager(int[][] binMatrix) {
+    private ImageManager(boolean[][] binMatrix) {
         mMatrix = binMatrix;
         mImage = new BufferedImage(binMatrix.length, binMatrix[0].length, BufferedImage.TYPE_4BYTE_ABGR);
         for (int i = 0; i < binMatrix[0].length; i++) {
             for (int j = 0; j < binMatrix.length; j++) {
-                mImage.setRGB(j, i, binMatrix[j][i]);
+                mImage.setRGB(j, i, binMatrix[j][i] ? 1 : 0);
             }
         }
         initImageSize();
@@ -43,7 +45,7 @@ public class ImageManager extends JPanel {
         size.setSize(mImage.getWidth(), mImage.getHeight());
     }
 
-    public static ImageManager newInstance(int[][] binMatrix) {
+    public static ImageManager newInstance(boolean[][] binMatrix) {
         return new ImageManager(binMatrix);
     }
 
@@ -78,7 +80,7 @@ public class ImageManager extends JPanel {
         changeColor(1, Color.WHITE.getRGB());
         ImageIcon icon = new ImageIcon(mImage);
         JLabel label = new JLabel(icon, JLabel.CENTER);
-        JOptionPane.showMessageDialog(null, label, "FingerPrint", -1);
+        JOptionPane.showMessageDialog(null, label, "algorithm.FingerPrint", -1);
         changeColor(Color.WHITE.getRGB(), 1);
     }
 
